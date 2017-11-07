@@ -2,12 +2,12 @@ robot:
   robot_specifications:
     - footprint:
         footprint_specifications:
-          radius: 0.50000002980232
+          radius: 0.200000002980232
           points:
             []
     - initial_pose:
-        x: 20.0
-        y: 20.0
+        x: 1.0
+        y: 1.0
         theta: 0
     - laser:
         laser_specifications:

@@ -97,8 +97,8 @@ namespace reactive_robot_feup
 		}
 		else //initial movement
 		{
-			cmd.linear.x = 0.3;
-			cmd.angular.z = 0.1;
+			cmd.linear.x = 0.2;
+			cmd.angular.z = 1;
 		}
 		
 		if(min_distance_front <= 1.5 && min_distance_left < scan.range_max && min_distance_right < scan.range_max) // on the pipe
