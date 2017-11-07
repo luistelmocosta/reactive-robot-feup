@@ -38,12 +38,16 @@ namespace reactive_robot_feup
     	float robot_angle = 0.0;
     	float alpha = 0.0;
     	
-    	//read the info from the laser sensor
+    	//read the scan from the sensors
     	for(int i = 0; i < scan.ranges.size(); i++)
     	{
 			float distance = scan.ranges[i];
 			float sensor_angle = -100.0 + rTd(scan.angle_increment) * i;
-			if(sensor_angle >= -100 && sensor_angle <= 0) //right side
+
+			/*
+			RIGHT SENSOR
+			*/
+			if(sensor_angle >= -100 && sensor_angle <= 0) 
 			{
 				if(distance < min_distance_right_fan)
 				{
@@ -58,7 +62,11 @@ namespace reactive_robot_feup
 					}
 				}
 			}
-			else if(sensor_angle > 0 && sensor_angle <= 100) // left side
+
+			/*
+			LEFT SENSOR
+			*/
+			else if(sensor_angle > 0 && sensor_angle <= 100) 
 			{
 				if(distance < min_distance_left)
 				{
@@ -73,8 +81,11 @@ namespace reactive_robot_feup
 					}
 				}	
 			} 
-			
-			if(sensor_angle >= -15 && sensor_angle <= 15)//front
+
+			/* 
+			FRONT SENSOR 
+			*/
+			if(sensor_angle >= -15 && sensor_angle <= 15)
 			{
 				if(distance < min_distance_front)
 				{
@@ -93,15 +104,15 @@ namespace reactive_robot_feup
 	
 			cmd.linear.x = 0.4;
 			//https://www.seas.upenn.edu/sunfest/docs/papers/12-bayer.pdf
-			cmd.angular.z = (-20 * (sin(dTr(alpha)) - (min_distance - 1.46))) * cmd.linear.x;
+			cmd.angular.z = (-15 * (sin(dTr(alpha)) - (min_distance - 1.46))) * cmd.linear.x;
 		}
 		else //initial movement
 		{
-			cmd.linear.x = 0.2;
-			cmd.angular.z = 1;
+			cmd.linear.x = 0.3;
+			cmd.angular.z = 1.3;
 		}
 		
-		if(min_distance_front <= 1.5 && min_distance_left < scan.range_max && min_distance_right < scan.range_max) // on the pipe
+		/*if(min_distance_front <= 1.5 && min_distance_left < scan.range_max && min_distance_right < scan.range_max) // on the pipe
 		{
 			cout << "STOPPED" << endl;
 			cout << "FRONT DISTANCE: " << min_distance_front << endl;
@@ -109,7 +120,7 @@ namespace reactive_robot_feup
 			cout << "RIGHT DISTANCE: " << min_distance_right << endl;
 			cmd.linear.x = 0.0;
 			cmd.angular.z = 0.0;
-		}
+		}*/
     	
 		cmd_vel_pub.publish(cmd);
 	}
